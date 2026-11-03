@@ -42,10 +42,13 @@ services:
     image: >-
       teslamate/grafana:latest@sha256:2dd1fae85cd891e1d851350d13b547abf000efd602c8d0e5734eda6d43e22e01
     restart: on-failure
-    # Grafana's image runs as UID 472 by default, which cannot write to
-    # Umbrel's bind-mounted data directory (owned by UID 1000). Run it as
-    # 1000:1000 so its data directory is writable.
-    user: "1000:1000"
+    # Umbrel's bind-mounted data directories are created owned by root, so
+    # Grafana must start as root: its entrypoint then fixes the data
+    # directory's ownership to the grafana user and drops privileges.
+    # Running it as 1000:1000 (or its default 472) cannot write to a
+    # root-owned bind mount and crash-loops with "GF_PATHS_DATA is not
+    # writable" -- verified on a real Umbrel install 3 Nov 2026.
+    user: "0:0"
     environment:
       - DATABASE_USER=teslamate
       - DATABASE_PASS=${APP_KOOSHKING_TESLAMATE_DATABASE_PASS}

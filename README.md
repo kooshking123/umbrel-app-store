@@ -69,8 +69,11 @@ Umbrel as a separate compose project (test ports 4001/3001, separate
 data directory, live TeslaMate stack untouched): TeslaMate served its
 fresh sign-in page and Grafana served its login page, then the test
 stack and its data were removed. One test finding is already in the
-package: Grafana must run as UID 1000, not its image default 472, or it
-cannot write to Umbrel's bind-mounted data directory. The app icon is
+package: Umbrel's bind-mounted data directories are created owned by
+root, so Grafana must start as root (its entrypoint then fixes the data
+directory's ownership and drops privileges); running it as UID 1000 or
+its image default 472 crash-loops with "GF_PATHS_DATA is not writable".
+The app icon is
 the Model 3 outline logo, uploaded as `icon.png` at the repository
 root and referenced from the app manifest.
 
