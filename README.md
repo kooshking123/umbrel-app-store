@@ -126,6 +126,14 @@ both UIs serving) should the old volumes be deleted.
 - **TeslaMate reports `not_signed_in` after a migration.** Expected:
   re-sign in with a fresh token pair (step 8 above). The restored token
   row cannot be decrypted under the new app's key.
+- **Dashboard links open in the wrong browser profile (Edge).** If you
+  run several Edge profiles, the `umbrel` hostname in Settings → URLs
+  can be associated by Edge with a different profile, so clicking a
+  dashboard link opens a new window in that profile instead of a new tab
+  in the one you are using. Pointing the URLs at your Umbrel's LAN IP
+  address instead (for example `http://192.168.0.116:4000` and
+  `http://192.168.0.116:3000`) avoids the hostname-to-profile
+  association and opens the link as a new tab in the same browser.
 - **Uninstalling the app removes its data.** The app's database lives
   under its Umbrel data directory, so uninstalling deletes it. Back up
   with a database dump first if you want to keep your history.
