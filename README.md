@@ -4,6 +4,13 @@ A community Umbrel app store. It currently ships one app:
 
 ## TeslaMate (`kooshking-teslamate`)
 
+**One-click TeslaMate for Umbrel.** If you run umbrelOS and drive a Tesla,
+this is the no-Docker-Compose route: add the store once, install from the
+Umbrel dashboard, and you get the full TeslaMate stack — TeslaMate,
+PostgreSQL, Grafana dashboards and Mosquitto — with your driving,
+charging and battery data staying on your own Umbrel instead of in
+someone else's cloud.
+
 TeslaMate is a self-hosted data logger for Tesla vehicles: it records drives,
 charges, state changes and positions into PostgreSQL and ships Grafana
 dashboards for efficiency, battery degradation, charging cost and vampire
