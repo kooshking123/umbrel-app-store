@@ -15,7 +15,7 @@ is by teslamate-org and is licensed AGPL-3.0
 
 1. Open the **App Store** in umbrelOS.
 2. Click the **⋯** menu (top right) → **Community App Stores**.
-3. Add the store URL (the public GitHub URL of this repository once published).
+3. Add the store URL: `https://github.com/kooshking123/umbrel-app-store`
 4. Open the **Kooshking** store and install **TeslaMate**.
 
 Community app stores are not verified or vetted by the Umbrel team.
@@ -74,7 +74,8 @@ cannot write to Umbrel's bind-mounted data directory. The icon is a
 placeholder and should be replaced with the TeslaMate project logo
 before the store is shared publicly.
 
-Not yet published: a full Umbrel-managed install (via the App Store UI,
-with Umbrel's app proxy in front of TeslaMate) still needs the store to
-be published to a public GitHub repository first, so that Umbrel can add
-it as a community app store.
+Published 3 November 2026 at https://github.com/kooshking123/umbrel-app-store.
+A full Umbrel-managed install (via the App Store UI, with Umbrel's app
+proxy in front of TeslaMate) has not yet been tested end to end from the
+published store; that is the remaining verification step before sharing
+the store widely.
