@@ -16,12 +16,7 @@ services:
       - DATABASE_HOST=database
       - MQTT_HOST=mosquitto
     volumes:
-      - type: bind
-        source: ${APP_DATA_DIR}/data/import
-        target: /opt/app/import
-        read_only: false
-        bind:
-          create_host_path: false
+      - ${APP_DATA_DIR}/data/import:/opt/app/import
     cap_drop:
       - all
     depends_on:
@@ -36,12 +31,7 @@ services:
       - POSTGRES_PASSWORD=${APP_KOOSHKING_TESLAMATE_DATABASE_PASS}
       - POSTGRES_DB=teslamate
     volumes:
-      - type: bind
-        source: ${APP_DATA_DIR}/data/postgres
-        target: /var/lib/postgresql
-        read_only: false
-        bind:
-          create_host_path: false
+      - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
       start_period: 20s
@@ -66,12 +56,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - type: bind
-        source: ${APP_DATA_DIR}/data/grafana
-        target: /var/lib/grafana
-        read_only: false
-        bind:
-          create_host_path: false
+      - ${APP_DATA_DIR}/data/grafana:/var/lib/grafana
     depends_on:
       - database
   mosquitto:
@@ -80,15 +65,5 @@ services:
     restart: on-failure
     command: mosquitto -c /mosquitto-no-auth.conf
     volumes:
-      - type: bind
-        source: ${APP_DATA_DIR}/data/mosquitto-conf
-        target: /mosquitto/config
-        read_only: false
-        bind:
-          create_host_path: false
-      - type: bind
-        source: ${APP_DATA_DIR}/data/mosquitto-data
-        target: /mosquitto/data
-        read_only: false
-        bind:
-          create_host_path: false
+      - ${APP_DATA_DIR}/data/mosquitto-conf:/mosquitto/config
+      - ${APP_DATA_DIR}/data/mosquitto-data:/mosquitto/data
