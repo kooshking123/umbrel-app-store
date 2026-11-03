@@ -70,9 +70,9 @@ data directory, live TeslaMate stack untouched): TeslaMate served its
 fresh sign-in page and Grafana served its login page, then the test
 stack and its data were removed. One test finding is already in the
 package: Grafana must run as UID 1000, not its image default 472, or it
-cannot write to Umbrel's bind-mounted data directory. The icon is a
-placeholder and should be replaced with the TeslaMate project logo
-before the store is shared publicly.
+cannot write to Umbrel's bind-mounted data directory. The app icon is
+the Model 3 outline logo, uploaded as `icon.png` at the repository
+root and referenced from the app manifest.
 
 Published 3 November 2026 at https://github.com/kooshking123/umbrel-app-store.
 A full Umbrel-managed install (via the App Store UI, with Umbrel's app

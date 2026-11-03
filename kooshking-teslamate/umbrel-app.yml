@@ -4,6 +4,7 @@ category: tools
 name: TeslaMate
 version: "4.4.0"
 tagline: Log and visualise your Tesla's drives, charges and battery health
+icon: https://raw.githubusercontent.com/kooshking123/umbrel-app-store/main/icon.png
 description: >-
   TeslaMate is a self-hosted data logger for Tesla vehicles. It records every
   drive, charge, state change and position into its own PostgreSQL database,
