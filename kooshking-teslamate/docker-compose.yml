@@ -1,0 +1,94 @@
+version: "3.7"
+services:
+  app_proxy:
+    environment:
+      APP_HOST: kooshking-teslamate_teslamate_1
+      APP_PORT: 4000
+  teslamate:
+    image: >-
+      teslamate/teslamate:4.4.0@sha256:c85b3d447502683ed7bf12fb478e0dae9a985fe975ac22cccb64faeb4c4a5d31
+    restart: on-failure
+    environment:
+      - ENCRYPTION_KEY=${APP_KOOSHKING_TESLAMATE_ENCRYPTION_KEY}
+      - DATABASE_USER=teslamate
+      - DATABASE_PASS=${APP_KOOSHKING_TESLAMATE_DATABASE_PASS}
+      - DATABASE_NAME=teslamate
+      - DATABASE_HOST=database
+      - MQTT_HOST=mosquitto
+    volumes:
+      - type: bind
+        source: ${APP_DATA_DIR}/data/import
+        target: /opt/app/import
+        read_only: false
+        bind:
+          create_host_path: false
+    cap_drop:
+      - all
+    depends_on:
+      - database
+      - mosquitto
+  database:
+    image: >-
+      postgres:18-trixie@sha256:3a4264520e121176619f54ff867d12774bc81e95e7b84db58d63bccdb6144b81
+    restart: on-failure
+    environment:
+      - POSTGRES_USER=teslamate
+      - POSTGRES_PASSWORD=${APP_KOOSHKING_TESLAMATE_DATABASE_PASS}
+      - POSTGRES_DB=teslamate
+    volumes:
+      - type: bind
+        source: ${APP_DATA_DIR}/data/postgres
+        target: /var/lib/postgresql
+        read_only: false
+        bind:
+          create_host_path: false
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+  grafana:
+    image: >-
+      teslamate/grafana:latest@sha256:2dd1fae85cd891e1d851350d13b547abf000efd602c8d0e5734eda6d43e22e01
+    restart: on-failure
+    # Grafana's image runs as UID 472 by default, which cannot write to
+    # Umbrel's bind-mounted data directory (owned by UID 1000). Run it as
+    # 1000:1000 so its data directory is writable.
+    user: "1000:1000"
+    environment:
+      - DATABASE_USER=teslamate
+      - DATABASE_PASS=${APP_KOOSHKING_TESLAMATE_DATABASE_PASS}
+      - DATABASE_NAME=teslamate
+      - DATABASE_HOST=database
+    # Grafana is published directly: Umbrel's app proxy fronts only the
+    # TeslaMate UI. Change Grafana's default admin/admin login on first use.
+    ports:
+      - "3000:3000"
+    volumes:
+      - type: bind
+        source: ${APP_DATA_DIR}/data/grafana
+        target: /var/lib/grafana
+        read_only: false
+        bind:
+          create_host_path: false
+    depends_on:
+      - database
+  mosquitto:
+    image: >-
+      eclipse-mosquitto:2@sha256:860aeb5d63ce509508f6dcfb2bc8a1c1dd2bc60555b562b45ce90e52d8dabb0f
+    restart: on-failure
+    command: mosquitto -c /mosquitto-no-auth.conf
+    volumes:
+      - type: bind
+        source: ${APP_DATA_DIR}/data/mosquitto-conf
+        target: /mosquitto/config
+        read_only: false
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APP_DATA_DIR}/data/mosquitto-data
+        target: /mosquitto/data
+        read_only: false
+        bind:
+          create_host_path: false

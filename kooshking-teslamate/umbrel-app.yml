@@ -1,0 +1,37 @@
+manifestVersion: 1
+id: kooshking-teslamate
+category: tools
+name: TeslaMate
+version: "4.4.0"
+tagline: Log and visualise your Tesla's drives, charges and battery health
+description: >-
+  TeslaMate is a self-hosted data logger for Tesla vehicles. It records every
+  drive, charge, state change and position into its own PostgreSQL database,
+  and ships a set of Grafana dashboards covering efficiency, battery
+  degradation, charging cost and vampire drain.
+
+
+  After installing, open TeslaMate and sign in with a Tesla API access token
+  and refresh token. TeslaMate never asks for your Tesla password: generate
+  the token pair beforehand with a token app such as Tesla Auth
+  (see https://docs.teslamate.org/docs/installation/tokens), then paste both
+  tokens into TeslaMate's sign-in page. TeslaMate stores the tokens encrypted
+  and refreshes them itself.
+
+
+  The TeslaMate web interface is served through Umbrel's app proxy, so your
+  Umbrel login protects it. Grafana, on port 3000, is published directly (see
+  the README): change its default admin/admin login immediately after your
+  first login, and in TeslaMate go to Settings > URLs and set the Web App and
+  Dashboards URLs to the addresses you use to reach them.
+developer: TeslaMate (teslamate-org)
+website: https://docs.teslamate.org/
+dependencies: []
+repo: https://github.com/teslamate-org/teslamate
+support: https://github.com/teslamate-org/teslamate/issues
+port: 4000
+path: ""
+defaultUsername: ""
+defaultPassword: ""
+torOnly: false
+submitter: kooshking
