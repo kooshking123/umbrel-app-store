@@ -54,6 +54,15 @@ services:
       - DATABASE_PASS=${APP_KOOSHKING_TESLAMATE_DATABASE_PASS}
       - DATABASE_NAME=teslamate
       - DATABASE_HOST=database
+      # Dates in DD/MM/YYYY (Singapore style) instead of MM/DD/YYYY: the
+      # TeslaMate Grafana image sets GF_DATE_FORMATS_USE_BROWSER_LOCALE=true,
+      # so formats follow the browser locale (en-US in David's Edge). Pin
+      # explicit formats instead -- added 6 Nov 2026 at David's request.
+      - GF_DATE_FORMATS_USE_BROWSER_LOCALE=false
+      - GF_DATE_FORMATS_FULL_DATE=DD/MM/YYYY, hh:mm:ss A
+      - GF_DATE_FORMATS_INTERVAL_DAY=DD/MM
+      - GF_DATE_FORMATS_INTERVAL_HOUR=DD/MM HH:mm
+      - GF_DATE_FORMATS_INTERVAL_MONTH=MM/YYYY
     # Grafana is published directly: Umbrel's app proxy fronts only the
     # TeslaMate UI. Change Grafana's default admin/admin login on first use.
     ports:
