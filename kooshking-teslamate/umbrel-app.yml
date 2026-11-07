@@ -24,7 +24,12 @@ description: >-
   Umbrel login protects it. Grafana, on port 3000, is published directly (see
   the README): change its default admin/admin login immediately after your
   first login, and in TeslaMate go to Settings > URLs and set the Web App and
-  Dashboards URLs to the addresses you use to reach them.
+  Dashboards URLs to the addresses you use to reach them. The package also
+  runs TeslaMateApi on port 8080, a read-only REST API over the same data
+  for companion apps such as MateDroid (Android): point the app at
+  http://<your-umbrel-ip>:8080. Like Grafana it is published directly, so
+  it has no login of its own and is reachable from any device on your home
+  network.
 developer: TeslaMate (teslamate-org)
 website: https://docs.teslamate.org/
 dependencies: []

@@ -64,6 +64,15 @@ is wrong — see Troubleshooting below.
 - PostgreSQL and Mosquitto run as companion containers; their data lives
   under the app's Umbrel data directory, mounted with short-syntax bind
   mounts so Docker creates the directories on first install.
+- TeslaMateApi (port 8080) is published directly, like Grafana, for
+  companion apps such as MateDroid (Android) that read TeslaMate data over
+  a REST API: point the app at `http://<your-umbrel-ip>:8080`. TeslaMate
+  itself has no public API, so this separate service
+  (tobiasehlert/teslamateapi) reads the same PostgreSQL database and MQTT
+  broker. Vehicle commands are not enabled, so it is read-only. Its read
+  endpoints have no login of their own: any device on your home network
+  can read your car data from it, so do not expose port 8080 beyond your
+  home network.
 - Grafana starts as root: Umbrel's bind-mounted data directories are
   created owned by root, and Grafana's entrypoint then fixes the data
   directory's ownership to the grafana user and drops privileges. Running

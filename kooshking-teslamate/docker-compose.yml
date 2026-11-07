@@ -22,6 +22,31 @@ services:
     depends_on:
       - database
       - mosquitto
+  # TeslaMateApi (tobiasehlert/teslamateapi) -- a separate REST API in front
+  # of TeslaMate's database and MQTT broker, for companion apps such as
+  # MateDroid (Android). TeslaMate itself has no public API. Exposes the
+  # API on port 8080, e.g. GET http://<umbrel-ip>:8080/api/v1/cars/1/status.
+  # Vehicle commands are NOT enabled (ENABLE_COMMANDS defaults to false),
+  # so this service is read-only. Note the read endpoints have no login of
+  # their own -- like Grafana, the API is reachable by any device on your
+  # home network, so do not expose port 8080 beyond it.
+  teslamateapi:
+    image: >-
+      tobiasehlert/teslamateapi:latest@sha256:6f7eea55c6475c2bc4639ee582dfec01d5cf618d30b0c7444020274a4786704e
+    restart: on-failure
+    environment:
+      - ENCRYPTION_KEY=${APP_KOOSHKING_TESLAMATE_ENCRYPTION_KEY}
+      - DATABASE_USER=teslamate
+      - DATABASE_PASS=${APP_KOOSHKING_TESLAMATE_DATABASE_PASS}
+      - DATABASE_NAME=teslamate
+      - DATABASE_HOST=database
+      - MQTT_HOST=mosquitto
+      - TZ=Asia/Singapore
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+      - mosquitto
   database:
     image: >-
       postgres:18-trixie@sha256:3a4264520e121176619f54ff867d12774bc81e95e7b84db58d63bccdb6144b81
