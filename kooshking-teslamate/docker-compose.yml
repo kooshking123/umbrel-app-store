@@ -51,6 +51,12 @@ services:
     image: >-
       postgres:18-trixie@sha256:3a4264520e121176619f54ff867d12774bc81e95e7b84db58d63bccdb6144b81
     restart: on-failure
+    # Port 5432 is published so the TeslaMate MCP server (cobanov/teslamate-mcp)
+    # running on elmo-ultra (LM Studio) can read the database directly.
+    # Reachable only on the home network / Tailscale (Umbrel does not expose
+    # ports to the internet); the database password still applies.
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_USER=teslamate
       - POSTGRES_PASSWORD=${APP_KOOSHKING_TESLAMATE_DATABASE_PASS}
