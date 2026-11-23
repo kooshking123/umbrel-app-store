@@ -6,7 +6,7 @@ services:
       APP_PORT: 4000
   teslamate:
     image: >-
-      teslamate/teslamate:4.4.0@sha256:c85b3d447502683ed7bf12fb478e0dae9a985fe975ac22cccb64faeb4c4a5d31
+      teslamate/teslamate:4.5.0@sha256:a285b02171a789cf2af5075502d2ec9034b58a42db777a30ae86aef2d0c12af4
     restart: on-failure
     environment:
       - ENCRYPTION_KEY=${APP_KOOSHKING_TESLAMATE_ENCRYPTION_KEY}
@@ -71,7 +71,7 @@ services:
       timeout: 5s
   grafana:
     image: >-
-      teslamate/grafana:latest@sha256:2dd1fae85cd891e1d851350d13b547abf000efd602c8d0e5734eda6d43e22e01
+      teslamate/grafana:latest@sha256:598c65f4fbefaccc213d16fde5b86b5e71366bd391c00b28ff64b976e0841dde
     restart: on-failure
     # Umbrel's bind-mounted data directories are created owned by root, so
     # Grafana must start as root: its entrypoint then fixes the data
